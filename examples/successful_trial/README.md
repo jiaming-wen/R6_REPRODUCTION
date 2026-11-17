@@ -1,14 +1,16 @@
-# 成功样例：Q1_C
+# Successful example: Q1_C
 
-2026-10-16 正式计数尝试，条件 C；抓取弧中点 `s=0.5`。记录结果：成功。
+[中文版](README.zh-CN.md)
 
-- snap0/snap1：左右图、状态、FS 视差；可直接复跑感知。
-- clicks.json：人工从针尾到针尖点的折线。
-- perception.json：当天保存的感知结果，用作回放参照。
-- template_clicks.json：左右图上的夹爪模板点选。
-- trial_state.json、trial_log.jsonl、preclose_pose.json：执行状态和闭合前位姿。
-- pre_close_touch、closed、lifted_2s：闭合前、闭合后和抬起后的图像。
+Counted attempt on 2026-10-16, condition C; grasp at the arc midpoint `s=0.5`. Recorded outcome: success.
 
-成功结论来自历史实验记录。单次感知回放只检查几何是否可重算，不会复现抓取动作或证明新的真机成功。
+- `snap0` / `snap1`: left and right images, robot state, FS disparity. Perception can be replayed directly.
+- `clicks.json`: the operator's polyline from needle tail to needle tip.
+- `perception.json`: the perception result saved on the day, used as the replay reference.
+- `template_clicks.json`: the gripper template clicks on the left and right images.
+- `trial_state.json`, `trial_log.jsonl`, `preclose_pose.json`: execution state and the pose before closing.
+- `pre_close_touch`, `closed`, `lifted_2s`: images before closing, after closing and after lifting.
 
-2026-10-20 回放验证：脚本正常退出，感知检查通过，抓取点与归档相差 0.00094 mm（门槛 0.1 mm）。
+The success comes from the historical experiment record. A single perception replay only checks that the geometry can be recomputed; it does not reproduce the grasp motion or prove a new real-robot success.
+
+Replay check on 2026-10-20: the script exited normally, the perception checks passed, and the grasp point differed from the archived one by 0.00094 mm (gate 0.1 mm).

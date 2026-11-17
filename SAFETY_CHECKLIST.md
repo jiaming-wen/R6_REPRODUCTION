@@ -1,17 +1,19 @@
-# 真机前检查
+# Pre-run checks on the real robot
 
-以下来自原 R6 流程和当天事故记录；每次现场执行前确认。
+[中文版](SAFETY_CHECKLIST.zh-CN.md)
 
-- [ ] 当前是实验室真实采集的尝试，未把 examples 的历史图像或回放结果交给机器人。
-- [ ] 操作者在场，dVRK 已 Home，器械确认是 ProGrasp 400093，急停可用。
-- [ ] 当前 ECM/SUJ/器械与标定一致；发生变动后已重新标定或检查。
-- [ ] 相机两个 topic 正常，物理左 = topic right；ROS 使用 SYSTEM_DEFAULT、UDPv4。
-- [ ] 本次 perception 有效、新鲜，且与本次起点和图像对应；不是刚重新写时间戳的历史回放。
-- [ ] 腕部转动在离垫面 25 mm 处，并使用正确 TCP 绕尖端补偿。
-- [ ] 离垫面 20 mm 内每步平移不超过 3 mm。
-- [ ] 每个 phase 单独运行、检查输出；失败或拍不到图就停止，不继续下一步。
-- [ ] 不重复执行 descend/touch；不把 `命令 | tail` 的退出码当成机器人命令成功。
-- [ ] 闭合前检查针是否移动；超过 1 mm 或无法验证就中止。
-- [ ] 插入关节力 0.15 N 是当天使用的接触判据，未完成独立标定；由现场操作者确认适用性。
+These come from the original R6 procedure and the incident record of the same day. Confirm each one before every on-site run.
 
-原 T3 事故由拍图失败后继续执行、接触后再次下降造成。不要一条命令串跑完整个抓取流程。
+- [ ] This is a live attempt with images captured in the lab now. No historical images or replay results from `examples/` are sent to the robot.
+- [ ] An operator is present, the dVRK is homed, the instrument is confirmed as ProGrasp 400093, and the emergency stop works.
+- [ ] The ECM, set-up joints and instrument match the calibration. After any change, the setup has been recalibrated or checked.
+- [ ] Both camera topics are publishing. Physical left = topic right. ROS uses SYSTEM_DEFAULT and UDPv4.
+- [ ] This run's perception is valid, fresh, and matches this run's start pose and images. It is not a historical replay with a rewritten timestamp.
+- [ ] The wrist rotation happens 25 mm above the pad and uses the correct TCP compensation about the tip.
+- [ ] Within 20 mm of the pad, each step translates no more than 3 mm.
+- [ ] Each phase is run on its own and its output checked. If a phase fails or an image cannot be captured, stop; do not continue to the next phase.
+- [ ] Do not repeat descend/touch. Do not take the exit code of `command | tail` as proof that the robot command succeeded.
+- [ ] Before closing the jaws, check whether the needle has moved. Abort if it moved more than 1 mm or if this cannot be checked.
+- [ ] The 0.15 N insertion-joint force used as the contact criterion on that day has not been independently calibrated. The operator on site decides whether it applies.
+
+The original T3 incident happened because execution continued after an image capture failed, and the tool descended again after contact. Never chain the whole grasp into a single command.

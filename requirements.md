@@ -1,37 +1,39 @@
-# 需要准备什么
+# What you need
 
-## 1. 复跑随包样例
+[中文版](requirements.zh-CN.md)
 
-只需要 Python 3、numpy、opencv-python、scipy。无需 GPU、ROS、机器人、FP 或 RL。
+## 1. Replaying the bundled examples
 
-包内已带左右图、人工点选、保存的 FS 视差，以及 r2_arc.py、r5_grasp_v3.py 两个代码依赖。运行前按协议设置 PYTHONPATH，无需修改 import。
+Only Python 3, numpy, opencv-python and scipy. No GPU, ROS, robot, FoundationPose or RL is needed.
 
-历史精简数据保存为 `fs_disp.npz`，键是 `disp`，单位是全分辨率像素；原 r6_perceive.py 读取 `fs_disp.npy`。协议只在临时工作副本中展开视差。
+The package includes the left and right images, the operator clicks, the saved FoundationStereo (FS) disparity, and the two code dependencies `r2_arc.py` and `r5_grasp_v3.py`. Set `PYTHONPATH` as in the protocol; no imports need to be changed.
 
-本次用于样例验证的环境：Python 3.14.2、numpy 2.3.5、opencv-python 4.13.0.92、scipy 1.16.3。这是验证记录，不是要求覆盖 3090 的现有环境。
+The reduced historical data are stored as `fs_disp.npz` with key `disp`, in full-resolution pixels. The original `r6_perceive.py` reads `fs_disp.npy`, so the protocol expands the disparity only inside a temporary working copy.
 
-## 2. 在 RTX 3090 工作站 上重新计算 FS
+Environment used to verify the examples: Python 3.14.2, numpy 2.3.5, opencv-python 4.13.0.92, scipy 1.16.3. This is a record of what was verified, not a requirement to replace the existing environment on the RTX 3090 workstation.
 
-| 必需项 | 当前状态 |
+## 2. Recomputing FS on the RTX 3090 workstation
+
+| Required | Current status |
 |---|---|
-| FoundationStereo 源码及可用 CUDA/PyTorch 环境 | 到实验室后核对 R5 已有安装 |
-| `pretrained_models/23-51-11/model_best_bp2.pth` | 到工作站核对文件及哈希；未放进此目录 |
-| 与权重配对的 `cfg.yaml` | 必须和权重在同一目录 |
-| imageio、omegaconf 及 FoundationStereo 自身依赖 | 使用原项目环境；不要仅按 r6_fs_infer 的 import 安装 |
-| DINOv2 Torch Hub 源码、timm EdgeNeXt 预训练缓存 | 首次启动可能联网获取；离线使用须提前备齐 |
+| FoundationStereo source with a working CUDA/PyTorch environment | Check the existing R5 installation in the lab |
+| `pretrained_models/23-51-11/model_best_bp2.pth` | Check the file and its hash on the workstation; not included here |
+| The `cfg.yaml` paired with the weights | Must be in the same directory as the weights |
+| imageio, omegaconf and FoundationStereo's own dependencies | Use the original project environment; do not install only from the imports in `r6_fs_infer.py` |
+| DINOv2 Torch Hub source and timm EdgeNeXt pretrained cache | May be downloaded on first start; prepare them in advance for offline use |
 
-本包包含 `scripts/required_dependencies/r6_fs_infer.py`。设置 FoundationStereo 的 PYTHONPATH 后直接调用，输入/输出目录通过参数传入。
+This package includes `scripts/required_dependencies/r6_fs_infer.py`. Call it directly after setting FoundationStereo's `PYTHONPATH`; the input and output directories are passed as arguments.
 
-`r6_fs_remote.sh` 是原笔记本的 SSH/WSL 入口，带旧机器路径；此次只作为原始依赖保留，**不要用它连接 3090**。
+`r6_fs_remote.sh` is the original laptop's SSH/WSL entry point and contains old machine paths. It is kept only as an original dependency. **Do not use it to connect to the 3090.**
 
-## 3. 真机运行
+## 3. Running on the real robot
 
-- 实验室 dVRK、PSM1 ProGrasp 400093、ECM 双目相机及现场操作者。
-- 机器人端 ROS2 Jazzy 和已构建的 `~/ros2_ws`：dvrk_robot、dvrk_video、dvrk_config_jhu。
-- Python ROS 模块：rclpy、sensor_msgs、geometry_msgs、std_msgs、crtk_msgs、cv_bridge、message_filters；另需 numpy、opencv、scipy。
-- 当前摆放的标定、beta 文件、新鲜图像、clicks.json 和 template_clicks.json。历史标定仅为格式示例。
+- The lab dVRK, PSM1 with a ProGrasp 400093, the ECM stereo camera, and an operator on site.
+- ROS 2 Jazzy on the robot side with a built `~/ros2_ws`: dvrk_robot, dvrk_video, dvrk_config_jhu.
+- Python ROS modules: rclpy, sensor_msgs, geometry_msgs, std_msgs, crtk_msgs, cv_bridge, message_filters; plus numpy, opencv and scipy.
+- Calibration and beta files for the current placement, fresh images, `clicks.json` and `template_clicks.json`. The historical calibration is only a format example.
 
-原 r6_grasp.py 固定读取：
+The original `r6_grasp.py` reads these fixed paths:
 
 ```text
 ~/suturing-policy-sim2real/records/logs/R6_20261016/
@@ -40,6 +42,6 @@
 └── beta/beta_sweep.json
 ```
 
-不改代码的前提下，要在这个位置提供**当前有效文件**。若已有历史文件，先由现场操作者核对，不能用示例自动覆盖。脚本中的 R2 TCP 常量也绑定原器械。
+Without changing the code, **currently valid files** must be provided at this location. If historical files are already there, the operator must check them first; they must not be overwritten automatically with the example. The R2 TCP constants in the script are also tied to the original instrument.
 
-**仍缺的验证：** 3090 的 R5 环境是否可直接运行这版 FS、当前装置标定是否有效、现场 ROS 通信是否正常。只有到实验室后才能确认。
+**Still unverified:** whether the 3090's R5 environment runs this version of FS as is, whether the current calibration is valid, and whether ROS communication works on site. These can only be confirmed in the lab.

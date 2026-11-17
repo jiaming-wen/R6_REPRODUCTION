@@ -1,14 +1,16 @@
-# 失败样例：T3b_C
+# Failed example: T3b_C
 
-2026-10-16 正式计数尝试，条件 C；抓取针尾侧 `s=0.25`。记录结果：失败（无有效接触，夹爪尖落在圆弧内侧）。
+[中文版](README.zh-CN.md)
 
-这次复用了同摆放 T3_C 的感知，因此本次 snap0 没有 FS 视差，也没有 snap1。**这是原始记录的情况，不是漏打包。**
+Counted attempt on 2026-10-16, condition C; grasp toward the needle tail at `s=0.25`. Recorded outcome: failure (no valid contact; the jaw tips landed inside the arc).
 
-- snap0：T3b_C 自己的起始图像和状态。
-- perception_reference/snap0、snap1：T3_C 被复用的图像和 FS 视差，供回放。
-- clicks.json、perception.json：沿用的点选与当天保存的感知。
-- trial_state.json、trial_log.jsonl、preclose_pose.json 和阶段图像：本次执行记录。
+This attempt reused the perception from T3_C, taken with the same placement, so this attempt's `snap0` has no FS disparity and there is no `snap1`. **This is how the original record was taken, not a packaging omission.**
 
-协议中的失败样例回放用 perception_reference 的两帧。感知可能通过检查；**感知通过不等于抓取成功**。这个失败用于说明两者的区别。
+- `snap0`: T3b_C's own start image and state.
+- `perception_reference/snap0`, `snap1`: the reused T3_C images and FS disparity, for replay.
+- `clicks.json`, `perception.json`: the reused clicks and the perception saved on the day.
+- `trial_state.json`, `trial_log.jsonl`, `preclose_pose.json` and phase images: this attempt's execution record.
 
-2026-10-20 回放验证：脚本正常退出，感知检查通过，抓取点与归档相差 0.00029 mm（门槛 0.1 mm）；历史抓取结果仍是失败。
+The protocol replays the failed example from the two frames in `perception_reference`. Perception may pass its checks; **passing perception does not mean the grasp succeeds**. This failure is included to show the difference.
+
+Replay check on 2026-10-20: the script exited normally, the perception checks passed, and the grasp point differed from the archived one by 0.00029 mm (gate 0.1 mm); the historical grasp outcome remains a failure.

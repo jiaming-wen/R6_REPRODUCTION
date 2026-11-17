@@ -1,21 +1,23 @@
 # R6 Grasp Reproduction
 
-R6 真机抓针复现材料，包含原始脚本、必要依赖、标定示例，以及成功与失败试验的数据。
+[中文版](README.zh-CN.md)
 
-该流程使用 FoundationStereo、人工针折线和夹爪模板点选、几何控制完成抓针。FoundationPose 和 RL policy 不参与这版在线抓针流程。
+Materials for reproducing the R6 real-robot needle grasp on the da Vinci Research Kit (dVRK): the original scripts, the dependencies they need, a calibration example, and data from one successful and one failed trial.
 
-## 开始使用
+The grasp uses FoundationStereo depth, an operator-clicked needle polyline and gripper template, and geometric control. FoundationPose and the RL policy are not part of this online grasp.
+
+## Getting started
 
 ```bash
-git clone https://github.com/18244241528jm-cpu/R6_REPRODUCTION.git
+git clone https://github.com/jiaming-wen/R6_REPRODUCTION.git
 cd R6_REPRODUCTION
 ```
 
-1. 按 [requirements.md](requirements.md) 检查依赖。
-2. 按 [REPRODUCTION_PROTOCOL.md](REPRODUCTION_PROTOCOL.md) 的 A 节复跑随包样例，无需 GPU、ROS 或机器人。
-3. 需要真机复现时，完成 GPU 环境核对、当前装置标定和 [SAFETY_CHECKLIST.md](SAFETY_CHECKLIST.md)，再执行协议中的现场步骤。
+1. Check the dependencies in [requirements.md](requirements.md).
+2. Replay the bundled examples with section A of [REPRODUCTION_PROTOCOL.md](REPRODUCTION_PROTOCOL.md). This needs no GPU, ROS or robot.
+3. To reproduce on the real robot, verify the GPU environment, calibrate the current setup and complete [SAFETY_CHECKLIST.md](SAFETY_CHECKLIST.md) before following the on-site steps of the protocol.
 
-## 目录
+## Layout
 
 ```text
 R6_REPRODUCTION/
@@ -34,19 +36,19 @@ R6_REPRODUCTION/
 └── REPRODUCTION_PROTOCOL.md
 ```
 
-## 样例与验证
+## Examples and verification
 
-样例包含图像、人工点选、保存的 FS 视差及执行记录，无需下载全量实验数据即可复跑感知。
+Each example contains the images, the operator clicks, the saved FoundationStereo disparity and the execution record, so perception can be replayed without downloading the full experiment data.
 
-| 样例 | 历史抓取结果 | 感知回放与归档抓取点的差值 |
+| Example | Recorded grasp outcome | Replayed grasp point vs. archived |
 |---|---|---|
-| [Q1_C](examples/successful_trial/README.md) | 成功 | 0.00094 mm |
-| [T3b_C](examples/failed_trial/README.md) | 失败 | 0.00029 mm |
+| [Q1_C](examples/successful_trial/README.md) | Success | 0.00094 mm |
+| [T3b_C](examples/failed_trial/README.md) | Failure | 0.00029 mm |
 
-两例均通过 0.1 mm 的感知回放门槛。感知回放通过不代表真机抓取成功；T3b_C 使用的 T3_C 感知输入也随失败样例提供。
+Both pass the 0.1 mm perception-replay gate. **Passing the perception replay does not mean the physical grasp succeeds.** The perception input that T3b_C reused from T3_C is included with the failed example.
 
-代码、数据和标定文件均从原始材料逐字节复制；新增内容为复现说明与清单。文件来源和 SHA256 见 [COPY_MANIFEST.csv](scripts/required_dependencies/COPY_MANIFEST.csv)。本仓库保留上游 [MIT License](LICENSE)。
+Code, data and calibration files are byte-for-byte copies of the originals; only the reproduction notes and checklists are new. The source and SHA256 of every copied file are listed in [COPY_MANIFEST.csv](scripts/required_dependencies/COPY_MANIFEST.csv). This repository keeps the upstream [MIT License](LICENSE).
 
-GPU 推理与当前真机环境仍待现场验证。历史标定仅作格式和结果参考，不能直接用于新的装置摆放。固定路径和未包含的模型依赖见 requirements.md。
+GPU inference and the current real-robot setup still have to be verified on site. The historical calibration is a reference for format and results only and cannot be used for a new placement of the setup. Fixed paths and model dependencies that are not included are listed in requirements.md.
 
-原始流程：[R6 grasp pipeline](https://github.com/18244241528jm-cpu/suturing-policy-sim2real/blob/aae23cf23a9b2a05fb139bcf0ce1524ccff0e5a3/docs/daily/2026-10-16/R6_grasp_pipeline.md)。
+Original pipeline: [R6 grasp pipeline](https://github.com/jiaming-wen/suturing-policy-sim2real/blob/aae23cf23a9b2a05fb139bcf0ce1524ccff0e5a3/docs/daily/2026-10-16/R6_grasp_pipeline.md) (in Chinese).
