@@ -1,16 +1,18 @@
-# 历史标定示例
+# Historical calibration example
 
-这些是 2026-10-16、ProGrasp 400093 和当天 ECM/SUJ 摆放的文件。
+[中文版](README.zh-CN.md)
 
-| 文件 | 含义 |
+These files are from 2026-10-16, with a ProGrasp 400093 and that day's ECM and set-up-joint placement.
+
+| File | Meaning |
 |---|---|
-| calib/manifest.json | 标定点、参考姿态和基准位置 |
-| calib/calibration_r6.json | ECM cp → 相机坐标的仿射标定 |
-| calib/check2_after_restart2.json | 当天重启后的检查记录 |
-| beta/beta_sweep.json | 当天 beta 测量 |
-| camera/ | 两个 topic 的相机参数 |
-| calibration_summary.json | 坐标系、TCP 和标定摘要 |
+| calib/manifest.json | Calibration points, reference pose and base position |
+| calib/calibration_r6.json | Affine calibration from ECM cp to camera coordinates |
+| calib/check2_after_restart2.json | Check record after that day's restart |
+| beta/beta_sweep.json | That day's beta measurement |
+| camera/ | Camera parameters for both topics |
+| calibration_summary.json | Frames, TCP and calibration summary |
 
-位置单位看字段名：`*_mm` 为毫米，`*_m` 为米。物理左目对应 topic right。
+Units follow the field names: `*_mm` is millimeters, `*_m` is meters. The physical left camera corresponds to topic right.
 
-这是一套**文件格式和历史结果示例**，不能直接当作新实验的有效标定。ECM、SUJ、器械或摆放变化后，需要重新标定或检查。
+This is an **example of the file format and of historical results**. It is not a valid calibration for a new experiment. After any change to the ECM, set-up joints, instrument or placement, recalibrate or check.
